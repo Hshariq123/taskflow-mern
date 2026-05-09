@@ -18,7 +18,6 @@ userSchema.pre('save', async function (next) {
     let salt = await bcrypt.genSalt(10);
     let hash = await bcrypt.hash(user.password, salt);
     user.password = hash;
-    next();
 })
 
 userSchema.methods.comparePassword = async function (password) {
