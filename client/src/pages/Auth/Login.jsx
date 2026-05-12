@@ -6,7 +6,7 @@ import {Input} from 'antd';
 import { Link,useNavigate } from 'react-router-dom';
 import { Button,message } from 'antd';
 import AuthServices from '../../services/authServices';
-import { getErrorMessage } from '../util/GetError';
+import { getErrorMessage } from '../../util/GetError';
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

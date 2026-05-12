@@ -1,17 +1,38 @@
 import React,{useState} from 'react'
 import styles from './Login.module.css';
 import login from '../../assets/login.png';
-import {Button, Input} from 'antd';
-import { Link } from 'react-router-dom';
-
-
+import {Button, Input,message} from 'antd';
+import { Link ,useNavigate} from 'react-router-dom';
+import {getErrorMessage} from '../../util/GetError.js';
+import AuthServices from '../../services/authServices';
 function Register() {
   const [username,setUsername] = useState("");
   const [password,setPassword] = useState("");
   const [firstName,setFirstName] = useState("");
   const [lastName,setLastName] = useState("");
-  const handleSubmit =()=>{
-    console.log("registered");
+const [loading,setLoading] = useState(false);
+const navigate = useNavigate();
+
+  const handleSubmit = async()=>{
+    try {
+      setLoading(true);
+      const data = {
+        firstName,
+        lastName,
+        username,
+        password
+      }
+      console.log("registered");
+      const response = await AuthServices.registerUser(data);
+      console.log(response.data);
+      setLoading(false);
+      message.success("You're registered successfully, Please login to continue");
+      navigate('/login');
+    } catch (err) {
+      console.error("Error occurred while registering:", err);
+      message.error(getErrorMessage(err));
+      setLoading(false);
+    }
     
   }
   return (
@@ -46,7 +67,7 @@ function Register() {
           <div className={styles.input__info}>
             Existing User? <Link to="/login">Login</Link>
            </div> 
-           <Button  type="primary" size="large" disabled={!username || !password} onClick={handleSubmit} >Register</Button>
+           <Button loading={loading} type="primary" size="large" disabled={!username || !password} onClick={handleSubmit} >Register</Button>
       </div>
     </div>
   )
