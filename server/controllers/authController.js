@@ -34,7 +34,7 @@ async function loginUser(req, res) {
         }
         const isPasswordValid = await user.comparePassword(password);
         if (!isPasswordValid) {
-            return res.status(404).send({ message: 'Wrong password' });
+            return res.status(404).send({ message: 'You entered wrong password' });
         }
         let token = jwt.sign({ userId: user?._id }, secretKey, { expiresIn: '2h' });
         let finalData = {
