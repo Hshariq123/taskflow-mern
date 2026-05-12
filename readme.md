@@ -38,9 +38,9 @@ A full-stack task management application built using the MERN stack.
 ---
 ## Screenshots
 <p align="center">
-  <img src="client/src/assets/screenshots/1.png" width="49%" />
-  <img src="client/src/assets/screenshots/2.png" width="49%" /> 
-  <img src="client/src/assets/screenshots/3.png" width="49%" />
+  <img src="client/src/assets/SCREENSHOTS/1.png" width="49%" />
+  <img src="client/src/assets/SCREENSHOTS/2.png" width="49%" /> 
+  <img src="client/src/assets/SCREENSHOTS/3.png" width="49%" />
 </p>
 
 ---
