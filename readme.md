@@ -2,6 +2,18 @@
 
 A full-stack task management application built using the MERN stack.
 
+---
+
+## Live Demo
+
+Application Link:
+
+https://taskflow-mern-kappa.vercel.app/
+
+> Note: Authentication APIs currently require local backend setup. Frontend UI and task management interface can still be explored through the live demo.
+
+---
+
 ## Tech Stack
 
 ### Frontend
@@ -36,7 +48,9 @@ A full-stack task management application built using the MERN stack.
 - MongoDB Data Persistence
 
 ---
+
 ## Screenshots
+
 <p align="center">
   <img src="client/src/assets/SCREENSHOTS/1.png" width="49%" />
   <img src="client/src/assets/SCREENSHOTS/2.png" width="49%" /> 
@@ -57,3 +71,4 @@ taskflow-mern/
 ├── .gitignore
 │
 └── README.md
+```
