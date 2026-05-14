@@ -10,8 +10,6 @@ Application Link:
 
 https://taskflow-mern-kappa.vercel.app/
 
-> Note: Authentication APIs currently require local backend setup. Frontend UI and task management interface can still be explored through the live demo.
-
 ---
 
 ## Tech Stack
