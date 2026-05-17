@@ -4,7 +4,7 @@ import logo from '../assets/logo.png';
 import { getUserDetails } from '../util/GetUser';
 import { Dropdown } from 'antd';
 import avatar from '../assets/login.png'
-function Navbar(active) {
+function Navbar({active}) {
   const [user, setUser] = useState("");
   const navigate = useNavigate();
 
@@ -34,9 +34,17 @@ function Navbar(active) {
         </div>
         <ul className="navigation-menu">
 
-          <li><Link to="/" className={active === 'home' && 'activeNav'}>Home</Link></li>
-          {user && <li><Link to="/to-do-list" className={active === 'myTask' && 'activeNav'}>My Task</Link></li>
-          }
+          <li><Link to="/" className={active === 'home' ? 'activeNav' : ''}>Home</Link></li>
+          {user && (
+  <li>
+    <Link
+      to="/to-do-list"
+      className={active === 'myTask' ? 'activeNav' : ''}
+    >
+      My Task
+    </Link>
+  </li>
+)}
           {user ? 
           <Dropdown
           menu={{items,}}

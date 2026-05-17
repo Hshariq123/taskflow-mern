@@ -13,10 +13,10 @@ const getAllToDo = (userId) => {
     return axios.get(SERVER_URL + '/get-all-to-do/' + userId, authHeaders());
 }
 const deleteToDo = (id) => {
-    return axios.post(SERVER_URL + '/delete-to-do' + id, authHeaders());
+    return axios.delete(SERVER_URL + '/delete-to-do/' + id, authHeaders());
 }
 const updateToDo = (id, data) => {
-    return axios.post(SERVER_URL + '/update-to-do' + id, data, authHeaders());
+    return axios.patch(SERVER_URL + '/update-to-do/' + id, data, authHeaders());
 }
 
 const ToDoServices = {

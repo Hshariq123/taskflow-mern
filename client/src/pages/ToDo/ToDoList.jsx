@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar'
 import styles from './ToDoList.module.css';
-import { Button, Divider, Input, Modal, Tag, Tooltip, message } from 'antd';
+import { Button, Divider, Input, Modal, Select, Tag, Tooltip, message } from 'antd';
 import { getErrorMessage } from '../../util/GetError';
 import { getUserDetails } from '../../util/GetUser';
 import ToDoServices from '../../services/toDoService';
@@ -16,8 +16,12 @@ function ToDoList() {
   const [isAdding, setIsAdding] = useState(false);
   const [loading, setLoading] = useState(false);
   const [allToDo, setAllToDo] = useState([]);
+  const [currentEditItem, setCurrentEditItem] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedTitle, setUpdatedTitle] = useState("");
+  const [updatedDescription, setUpdatedDescription] = useState("");
+  const [updatedStatus, setUpdatedStatus] = useState("");
   const navigate = useNavigate();
-
 
   useEffect(() => {
     let user = getUserDetails();
@@ -80,6 +84,13 @@ function ToDoList() {
 
   const handleEdit = (item) => {
     console.log(item);
+    setCurrentEditItem(item);
+    setUpdatedTitle(item?.title);
+    setUpdatedDescription(item?.description);
+    setUpdatedStatus(item?.isCompleted);
+    setIsEditing(true);
+
+
 
   }
   const handleDelete = (item) => {
@@ -89,6 +100,26 @@ function ToDoList() {
   const handleUpdateStatus = (id) => {
     console.log(id);
 
+  }
+  const handleUpdateTask=async()=>{
+    try {
+      setLoading(true);
+      const data={
+        title:updatedTitle,
+        description:updatedDescription,
+        isCompleted:updatedStatus
+      }
+      console.log(data);
+      const response = await ToDoServices.updateToDo(currentEditItem?._id,data);
+      console.log(response.data);
+      message.success(`${currentEditItem?.title} Updated Successfully!`);
+      setLoading(false);
+      setIsEditing(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+      message.error(getErrorMessage(err));
+    }
   }
 
   return (
@@ -104,7 +135,7 @@ function ToDoList() {
         </div>
         <Divider />
 
-        <div className = {styles.toDoListCardWrapper}>
+        <div className={styles.toDoListCardWrapper}>
           {allToDo.map((item) => {
             return (
               <div key={item?._id} className={styles.toDoCard}>
@@ -133,6 +164,28 @@ function ToDoList() {
         <Modal confirmLoading={loading} title="Add New To Do Task" open={isAdding} onOk={handleSubmitTask} onCancel={() => setIsAdding(false)}>
           <Input style={{ marginBottom: '1rem' }} placeholder='Title' value={title} onChange={(e) => setTitle(e.target.value)} />
           <Input.TextArea placeholder='Description' value={description} onChange={(e) => setDescription(e.target.value)} />
+        </Modal>
+        <Modal confirmLoading={loading} title={`Update ${currentEditItem.title}`} open={isEditing} onOk={handleUpdateTask} onCancel={() => setIsEditing(false)}>
+          <Input style={{ marginBottom: '1rem' }} placeholder='Updated Title' value={updatedTitle} onChange={(e) => setUpdatedTitle(e.target.value)} />
+          <Input.TextArea style={{ marginBottom: '1rem' }} placeholder='Updated Description' value={updatedDescription} onChange={(e) => setUpdatedDescription(e.target.value)} />
+          <Select
+
+            onChange={(value) => setUpdatedStatus(value)}
+            value={updatedStatus}
+            options={[
+
+              {
+                value: false,
+                label: 'Not Completed',
+              },
+
+              {
+                value: true,
+                label: 'Completed',
+              },
+
+            ]}
+          />
         </Modal>
       </section>
     </>
