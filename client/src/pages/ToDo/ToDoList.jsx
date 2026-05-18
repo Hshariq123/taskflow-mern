@@ -22,7 +22,20 @@ function ToDoList() {
   const [updatedDescription, setUpdatedDescription] = useState("");
   const [updatedStatus, setUpdatedStatus] = useState("");
   const navigate = useNavigate();
+  const getAllToDo = async () => {
+    try {
+      let user = getUserDetails();
+      console.log(user?.userId);
+      const response = await ToDoServices.getAllToDo(user?.userId);
+      console.log(response.data);
+      setAllToDo(response.data);
+    }
+    catch (err) {
+      console.log(err);
+      message.error(getErrorMessage(err));
 
+    }
+  }
   useEffect(() => {
     let user = getUserDetails();
     const getAllToDo = async () => {
@@ -44,7 +57,7 @@ function ToDoList() {
     else {
       navigate('/login');
     }
-  }, [navigate])
+  }, [navigate]);
 
 
   const handleSubmitTask = async () => {
@@ -55,7 +68,7 @@ function ToDoList() {
         title,
         description,
         isCompleted: false,
-        creeatedBy: userId
+        createdBy: userId
 
       }
       const response = await ToDoServices.createToDo(data);
@@ -63,6 +76,7 @@ function ToDoList() {
       setLoading(false);
       message.success("Task added.");
       setIsAdding(false);
+      getAllToDo();
     }
     catch (err) {
       console.log(err);
@@ -93,28 +107,37 @@ function ToDoList() {
 
 
   }
-  const handleDelete = (item) => {
-    console.log(item);
+  const handleDelete = async (item) => {
+    try {
+      const response = await ToDoServices.deleteToDo(item._id);
+      console.log(response.data);
+      message.success(`${item.title} is deleted`);
+      getAllToDo();
+    } catch (err) {
+      console.log(err);
+      message.error(getErrorMessage(err));
+    }
 
   }
   const handleUpdateStatus = (id) => {
     console.log(id);
 
   }
-  const handleUpdateTask=async()=>{
+  const handleUpdateTask = async () => {
     try {
       setLoading(true);
-      const data={
-        title:updatedTitle,
-        description:updatedDescription,
-        isCompleted:updatedStatus
-      }
+      const data = {
+        title: updatedTitle,
+        description: updatedDescription,
+        isCompleted: updatedStatus
+      };
       console.log(data);
-      const response = await ToDoServices.updateToDo(currentEditItem?._id,data);
+      const response = await ToDoServices.updateToDo(currentEditItem?._id, data);
       console.log(response.data);
       message.success(`${currentEditItem?.title} Updated Successfully!`);
       setLoading(false);
       setIsEditing(false);
+      getAllToDo();
     } catch (err) {
       console.log(err);
       setLoading(false);
