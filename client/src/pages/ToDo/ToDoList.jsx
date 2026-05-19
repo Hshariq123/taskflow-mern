@@ -74,7 +74,7 @@ function ToDoList() {
     else{
       setCurrentToDoTask(complete);
     }
-  },[allToDo]);
+  },[allToDo,currentTaskType]);
 
   const handleSubmitTask = async () => {
     setLoading(true);
